@@ -1,0 +1,19 @@
+{
+  "space_id": 123,
+  "browser_backend": "ego",
+  "plan_sha256": "REPLACE_WITH_CURRENT_PLAN_HASH",
+  "video_sha256": "REPLACE_WITH_UPLOADED_VIDEO_HASH",
+  "cover_sha256": "REPLACE_WITH_UPLOADED_COVER_HASH",
+  "video_uploaded": true,
+  "cover_uploaded": true,
+  "required_fields_readback": true,
+  "stopped_before_publish": true,
+  "handoff": true,
+  "declarations_reviewed": true,
+  "ai_declaration_required": false,
+  "fields": {
+    "title": "替换为页面实际标题",
+    "description": "替换为页面实际简介",
+    "hashtags": ["实际话题一", "实际话题二", "实际话题三"]
+  }
+}

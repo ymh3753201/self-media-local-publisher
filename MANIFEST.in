@@ -1,0 +1,10 @@
+include README.md LICENSE AGENTS.md THIRD_PARTY.md SECURITY.md CONTRIBUTING.md CHANGELOG.md
+include .gitignore
+recursive-include config *.json
+exclude config/*.local.json
+recursive-include scripts *.py
+recursive-include tests *.py
+recursive-include examples *.json *.srt
+recursive-include .agents *.md
+recursive-include .github *.yml
+recursive-include src/self_media_publisher/data *.json

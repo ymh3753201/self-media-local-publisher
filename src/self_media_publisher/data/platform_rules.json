@@ -1,0 +1,11 @@
+{
+  "version": "2026-10-27.1",
+  "note": "项目保守预检规则；平台页面变化时应人工核对，不能视为平台官方限制全集。",
+  "platforms": {
+    "douyin": {"label": "抖音", "title_max_chars": 80, "description_max_chars": 500, "tags_min": 3, "tags_max": 5, "forbidden_words": ["保证赚钱", "100%成功"]},
+    "xiaohongshu": {"label": "小红书", "title_max_chars": 20, "description_max_chars": 1000, "tags_min": 5, "tags_max": 10, "forbidden_words": ["保证变现", "绝对有效"]},
+    "bilibili": {"label": "B站", "title_max_chars": 80, "description_max_chars": 2000, "tags_min": 3, "tags_max": 10, "forbidden_words": ["保证赚钱"]},
+    "wechat_channels": {"label": "微信视频号", "title_max_chars": 16, "description_max_chars": 500, "tags_min": 3, "tags_max": 6, "forbidden_words": ["保证赚钱", "诱导分享"]},
+    "youtube": {"label": "YouTube", "title_max_chars": 100, "description_max_bytes": 5000, "tags_min": 5, "tags_max": 20, "forbidden_words": ["guaranteed income", "100% success"]}
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "schema_version": "2.0",
+  "mode": "standalone",
+  "runtime_dir": ".publisher-runs",
+  "browser_backend": "ego",
+  "final_publish": "user_only",
+  "hermes_profile_dir": null,
+  "subtitle_min_coverage": 0.5
+}
