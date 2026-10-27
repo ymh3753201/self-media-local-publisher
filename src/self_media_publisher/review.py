@@ -10,7 +10,16 @@ from .rules import TAG_KEY
 from .storage import atomic_write, digest, dump, read_json, run_lock
 
 STATUSES = {"review_ready", "manual_required", "blocked", "failed", "manual_review_finished"}
-SENSITIVE = re.compile(r"(?i)(cookie|password|secret|token|authorization)|(?:gh[pousr]_|github_pat_|sk-)[A-Za-z0-9_-]{15,}|-----BEGIN .*PRIVATE KEY")
+SENSITIVE = re.compile(r"(?:gh[pousr]_|github_pat_|sk-)[A-Za-z0-9_-]{15,}|-----BEGIN .*PRIVATE KEY|(?i:Bearer\s+[A-Za-z0-9._~-]{12,}|(?:Cookie|Authorization|password|api[_-]?key|(?:access|refresh)[_-]?token)\s*[:=]\s*\S{8,})")
+PRIVATE_FIELDS = {"cookie", "cookies", "password", "secret", "token", "authorization", "access_token", "refresh_token", "client_secret", "api_key", "oauth_secret"}
+
+
+def contains_private_field(value) -> bool:
+    if isinstance(value, dict):
+        return any(str(key).lower().replace("-", "_") in PRIVATE_FIELDS or contains_private_field(item) for key, item in value.items())
+    if isinstance(value, list):
+        return any(contains_private_field(item) for item in value)
+    return False
 
 
 def clean_evidence(path: str) -> dict:
@@ -18,7 +27,7 @@ def clean_evidence(path: str) -> dict:
     if not source.is_file() or source.stat().st_size > 65536:
         raise PublisherError("证据需为不超过 64KB 的本地 JSON。", "invalid_evidence")
     data = read_json(source)
-    if SENSITIVE.search(json.dumps(data, ensure_ascii=False)):
+    if contains_private_field(data) or SENSITIVE.search(json.dumps(data, ensure_ascii=False)):
         raise PublisherError("证据可能含凭据字段；请移除敏感内容，只保留页面读回。", "sensitive_evidence")
     return data
 

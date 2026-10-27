@@ -78,3 +78,18 @@ class ReviewTests(MediaCase):
             record_review(self.config, str(path), "wechat_channels", "blocked", str(evidence))
         self.assertEqual(error.exception.status, "sensitive_evidence")
         self.assertNotIn("example-value", (path.parent / "review.json").read_text())
+
+    def test_normal_discussion_of_tokens_and_cookies_is_not_a_credential(self):
+        path, plan = self.begin()
+        evidence = self.root / "evidence.json"
+        evidence.write_text(dump({"space_id":10,"reason":"视频讲解 Token 计费；页面 Cookie 登录已过期，等待用户处理。"}))
+        result = record_review(self.config, str(path), "wechat_channels", "manual_required", str(evidence))
+        self.assertEqual(result["status"], "manual_required")
+
+    def test_nested_credential_fields_are_rejected(self):
+        from self_media_publisher.review import clean_evidence
+        evidence = self.root / "evidence.json"
+        evidence.write_text(dump({"fields":{"Access-Token":"dummy-sensitive-value"}}))
+        with self.assertRaises(PublisherError) as error:
+            clean_evidence(str(evidence))
+        self.assertEqual(error.exception.status, "sensitive_evidence")
